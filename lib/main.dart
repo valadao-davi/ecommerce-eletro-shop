@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context)=> UserController()),
         ChangeNotifierProvider(create: (context)=> ProductController()),
       ],
-      child: const MaterialApp(
+      child:  MaterialApp(
         title: "Ecommerce Apple",
         home: HomePage(),
       ),

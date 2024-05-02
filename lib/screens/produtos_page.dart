@@ -16,37 +16,35 @@ class Produtos extends StatefulWidget {
 class _ProdutosState extends State<Produtos> {
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserController>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Produtos"),
+        title: const Text("Meu carrinho"),
         actions: [
           IconButton(onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context)=> Favoritos())); }, icon: const Icon(Icons.favorite)),
           IconButton(onPressed: (){  Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage())); }, icon: const Icon(Icons.home)),
         ],
       ),
-      body: Consumer2<ProductController, UserController>(
-        builder: (context, product, userController, child){
-          List<ProductModel> products = product.products;
-          return ListView.builder(
-            itemCount: products.length,
-            itemBuilder: (context, index){
-              return  ListTile(
-                title: Text(products[index].name),
-                trailing: IconButton(
-                  onPressed: (){
-                    ProductModel product = ProductModel(
-                      name: products[index].name, 
-                      price: products[index].price, 
-                      description: products[index].description,
-                      url: products[index].url);
-                      userController.addFavorite("davinovo.valadao@gmail.com", product);
-                  },
-                  icon: const Icon(Icons.favorite_outline),
-                ),
+      body:FutureBuilder<List<ProductModel>>(
+        future:userProvider.carrinhosProductsUser(0),
+          builder: (context, snapshot) {
+            if(snapshot.connectionState == ConnectionState.waiting){
+              return const Center(child: CircularProgressIndicator());
+            }
+            if(snapshot.hasData){
+              List<ProductModel>? carrinho = snapshot.data;
+              if(carrinho!.isEmpty){
+                return Center(child: Text("Sem dados!"),);
+              }
+              return ListView.builder(
+                itemCount: carrinho.length,
+                itemBuilder: (context, index){
+                  return Text(carrinho[index].name);
+                },
               );
             }
-          );
-        }
+            return const Text("Sem dados");
+          },
       ),
     );
   }
