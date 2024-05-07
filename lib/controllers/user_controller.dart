@@ -23,10 +23,11 @@ class UserController with ChangeNotifier {
       }
     }
   }
-
-  void cadastrarUsuario(context, UserModel user){
+void cadastrarUsuario(context, UserModel user){
     var result = users.where((u) => u.email == user.email);
-    if(user.email.contains("@") && user.email.contains(".com")){
+    user.setEmail(user.email);
+    user.setSenha(user.senha);
+    if(user.email.isNotEmpty && user.senha.isNotEmpty){
       users.add(user);
       notifyListeners();
        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -42,7 +43,7 @@ class UserController with ChangeNotifier {
                 backgroundColor: Colors.red,
                 content: Row(
                     children: [
-                        Text('Email cadastrado, tente inserar um email novo!'),
+                        Text('Email já existente, tente inserir um email diferente!'),
                         Icon(Icons.error)
                     ],
                 )));
@@ -51,7 +52,7 @@ class UserController with ChangeNotifier {
                 backgroundColor: Colors.red,
                 content: Row(
                     children: [
-                        Text('Insira uma email válido'),
+                        Text('Incredenciais inválidas, tente inserir credencias válidas'),
                         Icon(Icons.error)
                     ],
                 )));
@@ -70,6 +71,7 @@ class UserController with ChangeNotifier {
     }
   }
 
+  
   
   Future<List<ProductModel>> favoriteProductsUser(index) async {
     return users[index].favorites;

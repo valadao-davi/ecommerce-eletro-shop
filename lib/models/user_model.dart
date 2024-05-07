@@ -28,7 +28,33 @@ class UserModel {
       return "Item não encontrado";
     }
   }
+  
+  setUsername(String username){
+    if (username.isNotEmpty) {
+        this.username = username;
+      }else{
+        print("Usuário inválido!");
+        return;
+      }
+  }
 
+  setEmail(String email){
+    if(email.isNotEmpty && email.contains("@") && email.contains(".com")){
+      this.email = email;
+    }else{
+      print("Email inválido!");
+      return;
+    }
+  }
+  
+  setSenha(String senha){
+    if(senha.isNotEmpty && senha.length >= 6){
+      this.senha = senha;
+    }else{
+      print("Senha inválida!");
+      return;
+    }
+  }
 
 
 }

@@ -29,17 +29,29 @@ class ProductController with ChangeNotifier{
     name: "Notebook Samsung Galaxy Book2 Intel Core i5-1235U, 8GB RAM",
     price: 2499.00,
     description: "SSD 256GB, 15.6\" Full HD, Windows 11 Home, Grafite - NP550XED-KF2BR",
-    url: "https://images.kabum.com.br/produtos/fotos/520072/notebook-galaxy-book2-intel-core-i5-1235u-windows-11-home-8gb-256gb-ssd-intel-iris-xe-15-6-full-hd-led-np550xed-kf2br_1706818190_gg.jpg"
+    url: "https://m.media-amazon.com/images/I/419J3K8mKPL._AC_.jpg"
     ),
 
     ProductModel(
     name: "Controle Microsoft Xbox Carbon Black, Sem Fio", 
     price: 399.81, 
     description: "Para Xbox Series X e S, Preto - Qat-00007", 
-    url: "https://images.kabum.com.br/produtos/fotos/sync_mirakl/158630/Controle-Microsoft-Xbox-Carbon-Black-Sem-Fio-Para-Xbox-Series-X-e-S-Preto-Qat-00007_1713815586_gg.jpg"
+    url: "https://images.tcdn.com.br/img/img_prod/1042771/controle_sem_fio_bluetooth_plug_p2_carbon_black_cabo_usb_c_xbox_series_x_s_one_windows_10_android_e__295_2_f4d676dab1d141bd3e9d1b471d35e83d.jpg"
     ),
     
   ];
 
   List<ProductModel> get products => _products;
+
+  void novoProduto(ProductModel product){
+   var contem = _products.contains(product);
+   if(contem){
+      throw Exception("O produto já existe na lista");
+   }else{
+    notifyListeners();
+    _products.add(product);
+   }
+  }
+
+
 }
