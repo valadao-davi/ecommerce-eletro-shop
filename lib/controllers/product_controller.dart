@@ -20,7 +20,7 @@ class ProductController with ChangeNotifier{
     
     ProductModel(
     name: "Caixa de som", 
-    price: 200.99, 
+    price: 199.99, 
     description: "JBL", 
     url: "https://m.media-amazon.com/images/I/61qMO3TS2RL._AC_UF1000,1000_QL80_DpWeblab_.jpg"
     ),

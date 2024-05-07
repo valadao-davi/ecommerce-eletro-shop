@@ -3,6 +3,7 @@ import 'package:ecommerce/controllers/user_controller.dart';
 import 'package:ecommerce/models/product_model.dart';
 import 'package:ecommerce/screens/favoritos_page.dart';
 import 'package:ecommerce/screens/produtos_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -44,12 +45,12 @@ class HomePage extends StatelessWidget {
                               height: 48,
                               padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                               decoration: BoxDecoration(
-                              color: Colors.grey[300],
+                              color: Colors.white,
               ),
-              child: const Row(
+              child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('Confira nossos produtos!', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16)),
+                    Text('Confira nossos produtos!', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: Colors.purple[800])),
                   ],
                 ))]
                 ),
@@ -59,15 +60,16 @@ class HomePage extends StatelessWidget {
       List<ProductModel> products = product.products;
       return GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Defina o número de colunas do grid
-          mainAxisSpacing: 8.0, // Espaçamento vertical entre os itens
-          crossAxisSpacing: 8.0, // Espaçamento horizontal entre os itens
-          childAspectRatio: 0.7, // Proporção da largura para a altura dos itens
+          crossAxisCount: 2, 
+          mainAxisSpacing: 8.0, 
+          crossAxisSpacing: 8.0, 
+          childAspectRatio: 1,
+          mainAxisExtent: 352
         ),
         itemCount: products.length,
         itemBuilder: (context, index) {
           return GestureDetector(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Favoritos())),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Produtos())),
             child: Container(
               margin: const EdgeInsets.all(8),
               child: Card(
@@ -75,339 +77,86 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 elevation: 4,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.network(
-                        products[index].url,
-                        height: 132,
-                        fit: BoxFit.cover,
+                child: Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                      width: 200, 
+                      height: 200, 
+                      color: Colors.white, 
+                      child: Center(
+                        child: AspectRatio(
+                          aspectRatio: 1, 
+                          child: Image.network(
+                            products[index].url,
+                            fit: BoxFit.contain, 
+                          ),
+                        ),
                       ),
                     ),
-                    /* IconButton(
-                      onPressed: () {
-                        ProductModel product = ProductModel(
-                          name: products[index].name, 
-                          price: products[index].price, 
-                          description: products[index].description, 
-                          url: products[index].url
-                        );
-                        userController.addToCart("davinovo.valadao@gmail.com", product);
-                      },
-                      icon: Icon(Icons.shopping_cart_outlined),
-                    ), */
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        products[index].name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        'R\$ ${products[index].price}',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                    Container(
-                      width: 140,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.purple[600],
-                        borderRadius: BorderRadius.circular(100)
-                      ),
-                    )
-                      ],
-                    )
-                  ],
+                      /* IconButton(
+                        onPressed: () {
+                          ProductModel product = ProductModel(
+                            name: products[index].name, 
+                            price: products[index].price, 
+                            description: products[index].description, 
+                            url: products[index].url
+                          );
+                          userController.addToCart("davinovo.valadao@gmail.com", product);
+                        },
+                        icon: Icon(Icons.shopping_cart_outlined),
+                      ), */
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(height: 12,),
+                          Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: LimitedBox(
+                            maxHeight: 20,
+                            child: Text(
+                            products[index].name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                                                     ),
+                          ),
+                          ),
+                          SizedBox(height: 8,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              'R\$ ${products[index].price}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
+                          SizedBox(height: 8,),
+                          GestureDetector(
+                            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Favoritos())),
+                            child: Container(
+                              width: 140,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.purple[600],
+                                borderRadius: BorderRadius.circular(100)
+                              ),
+                              child: Center(child: Text("ADICIONAR", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
           );
        
-  });}))]));
+  });}))])
+  
+  
+  );
   }
 }
-        // ListView(
-        //   children:[ 
-        //     Column(
-        //       children: [
-        //         const Padding(
-        //           padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-        //           child: Image(
-        //             image: NetworkImage('https://i0.wp.com/tashopp.com.br/loja/wp-content/uploads/2022/01/Banner-Eletronics.jpg?fit=1900%2C650&ssl=1'),
-        //             alignment: Alignment.topCenter,
-        //           ),
-        //         ),
-        //         Container(
-                  
-        //           width: double.infinity,
-        //           height: 48,
-        //           padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-        //           decoration: BoxDecoration(
-        //             color: Colors.grey[300],
-        //             border: const Border(bottom: BorderSide(color: Colors.grey, width: 1.0)
-        //             ),
-        //             ),
-        //             child: const Row(
-        //                 crossAxisAlignment: CrossAxisAlignment.center,
-        //                 children: [
-        //                   Text('Confira nossos produtos!', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16)),
-        //                 ],
-        //               ),
-        //               ),
-          
-        //               Column(
-        //                 children: [
-        //                   Row(
-        //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //                     children: [
-        //                       Expanded(
-        //                         child: GestureDetector(
-        //                           onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Favoritos())),
-        //                           child: Container(
-        //                             margin: const EdgeInsets.all(8),
-        //                             height: 250,
-        //                             child: Container(
-        //                               color: Colors.white,
-        //                               child: Column(
-        //                                 children: [
-        //                                   Container(
-        //                                     margin: const EdgeInsets.all(8),
-        //                                     width: 132,
-        //                                     height: 132,
-        //                                     decoration: const BoxDecoration( borderRadius: BorderRadius.all(Radius.circular(10)),
-        //                                     ),
-        //                                     child:const ClipRRect(
-        //                                       borderRadius: BorderRadius.all(Radius.circular(10.0)), 
-                                              
-        //                                     child: Image(
-        //                                       image: NetworkImage('https://images.kabum.com.br/produtos/fotos/520072/notebook-galaxy-book2-intel-core-i5-1235u-windows-11-home-8gb-256gb-ssd-intel-iris-xe-15-6-full-hd-led-np550xed-kf2br_1706818190_gg.jpg'),
-        //                                       alignment: Alignment.topCenter,
-        //                                     )
-        //                                   Container(
-        //                                     height: 20,
-        //                                     child: Text('Notebook Samsung Galaxy Book2 Intel Core i5-1235U, 8GB RAM, SSD 256GB, 15.6" Full HD, Windows 11 Home, Grafite - NP550XED-KF2BR', textAlign: TextAlign.center))
-        //                                   const Text('R\$ 2.499,00', style: TextStyle(fontSize: 18)),
-        //                               ]),
-        //                             ),
-        //                           ),
-        //                         ),
-        //                       ),
-        //                       Expanded(
-        //                         child: GestureDetector(
-        //                           onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Favoritos())),
-        //                           child: Container(
-        //                             margin: const EdgeInsets.all(8),
-        //                             height: 250,
-        //                             child: Container(
-        //                               color: Colors.white,
-        //                               child: Column(
-        //                                 children: [
-        //                                   Container(
-        //                                     margin: const EdgeInsets.all(8),
-        //                                     width: 132,
-        //                                     height: 132,
-        //                                     decoration: const BoxDecoration( borderRadius: BorderRadius.all(Radius.circular(10)),
-        //                                     ),
-        //                                     child:const ClipRRect(
-        //                                       borderRadius: BorderRadius.all(Radius.circular(10.0)), 
-                                              
-        //                                     child: Image(
-        //                                       image: NetworkImage('https://images.kabum.com.br/produtos/fotos/sync_mirakl/158630/Controle-Microsoft-Xbox-Carbon-Black-Sem-Fio-Para-Xbox-Series-X-e-S-Preto-Qat-00007_1713815586_gg.jpg'),
-        //                                       alignment: Alignment.topCenter,
-        //                                     )
-        //                                     ),), 
-        //                                   const Text('Controle Microsoft Xbox Carbon Black, Sem Fio, Para Xbox Series X e S, Preto - Qat-00007', textAlign: TextAlign.center),
-        //                                   const Text('R\$ 399,81', style: TextStyle(fontSize: 18)),
-                                          
-        //                               ]),
-        //                             ),
-        //                           ),
-        //                         ),
-        //                       ),
-                              
-        //                     ],
-        //                   ),
         
-        //                   Row(
-        //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //                     children: [
-        //                       Expanded(
-        //                         child: GestureDetector(
-        //                           onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Favoritos())),
-        //                           child: Container(
-        //                             margin: const EdgeInsets.all(8),
-        //                             height: 250,
-        //                             child: Container(
-        //                               color: Colors.white,
-        //                               child: Column(
-        //                                 children: [
-        //                                   Container(
-        //                                     margin: const EdgeInsets.all(8),
-        //                                     width: 132,
-        //                                     height: 132,
-        //                                     decoration: const BoxDecoration( borderRadius: BorderRadius.all(Radius.circular(10)),
-        //                                     ),
-        //                                     child:const ClipRRect(
-        //                                       borderRadius: BorderRadius.all(Radius.circular(10.0)), 
-                                              
-        //                                     child: Image(
-        //                                       image: NetworkImage('https://images.kabum.com.br/produtos/fotos/227818/headset-gamer-redragon-zeus-chroma-mk-ii-rgb-surround-7-1-usb-drivers-53mm-preto-vermelho-h510-rgb_1631555309_gg.jpg'),
-        //                                       alignment: Alignment.topCenter,
-        //                                     )
-        //                                     ),), 
-        //                                   const Text('Headset Gamer Redragon Zeus X, Chroma Mk.II, RGB, Surround 7.1, USB, Drivers 53MM, Preto/Vermelho - H510-RGB', textAlign: TextAlign.center),
-        //                                   const Text('R\$ 229,90', style: TextStyle(fontSize: 18)),
-                                          
-        //                               ]),
-        //                             ),
-        //                           ),
-        //                         ),
-        //                       ),
-          
-        //                       Expanded(
-        //                         child: GestureDetector(
-        //                           onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Favoritos())),
-        //                           child: Container(
-        //                             margin: const EdgeInsets.all(8),
-        //                             height: 250,
-        //                             child: Container(
-        //                               color: Colors.white,
-        //                               child: Column(
-        //                                 children: [
-        //                                   Container(
-        //                                     margin: const EdgeInsets.all(8),
-        //                                     width: 132,
-        //                                     height: 132,
-        //                                     decoration: const BoxDecoration( borderRadius: BorderRadius.all(Radius.circular(10)),
-        //                                     ),
-        //                                     child:const ClipRRect(
-        //                                       borderRadius: BorderRadius.all(Radius.circular(10.0)), 
-                                              
-        //                                     child: Image(
-        //                                       image: NetworkImage('https://images.kabum.com.br/produtos/fotos/308480/placa-de-video-msi-nvidia-geforce-rtx-3050-ventus-2x-8g-oc-8gb-gddr6-dlss-ray-tracing-geforce-rtx-3050-ventus-2x-8g-oc_1644002598_gg.jpg'),
-        //                                       alignment: Alignment.topCenter,
-        //                                     )
-        //                                     ),), 
-        //                                   const Text('Placa de Vídeo RTX 3050 Ventus 2X 8G OC MSI NVIDIA Geforce, 8GB GDDR6, DLSS, Ray Tracing - Geforce RTX 3050 Ventus 2X 8G OC', textAlign: TextAlign.center),
-        //                                   const Text('R\$ 1.249', style: TextStyle(fontSize: 18)),
-                                          
-        //                               ]),
-        //                             ),
-        //                           ),
-        //                         ),
-        //                       ),
-                              
-        //                     ],
-        //                   ),
-        
-        //                   Row(
-        //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //                     children: [
-        //                       Expanded(
-        //                         child: GestureDetector(
-        //                           onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Favoritos())),
-        //                           child: Container(
-        //                             margin: const EdgeInsets.all(8),
-        //                             height: 250,
-        //                             child: Container(
-        //                               color: Colors.white,
-        //                               child: Column(
-        //                                 children: [
-        //                                   Container(
-        //                                     margin: const EdgeInsets.all(8),
-        //                                     width: 132,
-        //                                     height: 132,
-        //                                     decoration: const BoxDecoration( borderRadius: BorderRadius.all(Radius.circular(10)),
-        //                                     ),
-        //                                     child:const ClipRRect(
-        //                                       borderRadius: BorderRadius.all(Radius.circular(10.0)), 
-                                              
-        //                                     child: Image(
-        //                                       image: NetworkImage('https://www.kabum.com.br/produto/444038/monitor-gamer-lg-ultragear-27-full-hd-144hz-1ms-ips-hdmi-e-displayport-hdr-10-99-srgb-freesync-premium-vesa-27gn65r'),
-        //                                       alignment: Alignment.topCenter,
-        //                                     )
-        //                                     ),), 
-        //                                   const Text('Monitor Gamer LG UltraGear 27 Full HD, 144Hz, 1ms, IPS, HDMI e DisplayPort, HDR 10, 99% sRGB, FreeSync Premium, VESA - 27GN65R', textAlign: TextAlign.center),
-        //                                   const Text('R\$ 949,99', style: TextStyle(fontSize: 18)),
-                                          
-        //                               ]),
-        //                             ),
-        //                           ),
-        //                         ),
-        //                       ),
-          
-        //                       Expanded(
-        //                         child: GestureDetector(
-        //                           onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Favoritos())),
-        //                           child: Container(
-        //                             margin: const EdgeInsets.all(8),
-        //                             height: 250,
-        //                             child: Container(
-        //                               color: Colors.white,
-        //                               child: Column(
-        //                                 children: [
-        //                                   Container(
-        //                                     margin: const EdgeInsets.all(8),
-        //                                     width: 132,
-        //                                     height: 132,
-        //                                     decoration: const BoxDecoration( borderRadius: BorderRadius.all(Radius.circular(10)),
-        //                                     ),
-        //                                     child:const ClipRRect(
-        //                                       borderRadius: BorderRadius.all(Radius.circular(10.0)), 
-                                              
-        //                                     child: Image(
-        //                                       image: NetworkImage('https://www.kabum.com.br/produto/471929/cadeira-gamer-kbm-gaming-tempest-cg600-preta-e-vermelho-com-almofadas-descanso-para-pernas-retratil-reclinavel-kgcg600ptvm'),
-        //                                       alignment: Alignment.topCenter,
-        //                                     )
-        //                                     ),), 
-        //                                   const Text('Cadeira Gamer KBM! GAMING Tempest CG600, Preta e Vermelho, Com Almofadas, Descanso Para Pernas Retrátil, Reclinável - KGCG600PTVM', textAlign: TextAlign.center),
-        //                                   const Text('R\$ 689,90', style: TextStyle(fontSize: 18)),
-        //                               ]),
-        //                             ),
-        //                           ),
-        //                         ),
-        //                       ),
-        //                     ],
-        //                   ),
-        //                 ],
-        //               )
-        //         ]),
-        // ]),
-        
-        /* 
-        appBar: AppBar(
-          title: const Text("Produtos"),
-          actions: [
-            IconButton(onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context)=> const Favoritos())); }, icon: const Icon(Icons.favorite)),
-            IconButton(onPressed: (){  Navigator.push(context, MaterialPageRoute(builder: (context)=> const Produtos())); }, icon: const Icon(Icons.shopping_cart)),
-          ],
-        ),
-        body: Consumer<ProductController>(
-          builder: (context, product, child){
-            List<ProductModel> products = product.products;
-            return ListView.builder(
-              itemCount: products.length,
-              itemBuilder: (context, index){
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(products[index].name),
-                    Image.network(products[index].url, width: 100, height: 100),
-                  ],
-                );
-                
-              }          
-            );
-          },
-        ),
-             */
