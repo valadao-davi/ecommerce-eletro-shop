@@ -5,7 +5,7 @@ class ProductModel {
   String url;
 
   ProductModel({required this.name, required this.price, required this.description, required this.url}) {
-    if (name.isNotEmpty) {
+    if (name.isEmpty) {
       throw ArgumentError("Nome não pode estar vazio");
     }
     if (price < 0) {
@@ -13,5 +13,5 @@ class ProductModel {
     }
   }
 
-  
+
 }

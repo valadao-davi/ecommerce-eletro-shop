@@ -1,13 +1,15 @@
+
 import 'package:ecommerce/models/product_model.dart';
 
 class UserModel {
   String username;
   String email;
   String senha;
+  bool gerente;
   List<ProductModel> products = [];
   List<ProductModel> favorites = [];
 
-  UserModel({required this.username, required this.email, required this.senha});
+  UserModel({required this.username, required this.email, required this.senha, required this.gerente});
 
   void addProduct(ProductModel product){
     products.add(product);
@@ -32,17 +34,20 @@ class UserModel {
   setUsername(String username){
     if (username.isNotEmpty) {
         this.username = username;
+        return;
       }else{
         print("Usuário inválido!");
-        return;
+  
       }
   }
 
   setEmail(String email){
     if(email.isNotEmpty && email.contains("@") && email.contains(".com")){
       this.email = email;
+      return;
     }else{
       print("Email inválido!");
+      this.email = '';
       return;
     }
   }
@@ -50,10 +55,17 @@ class UserModel {
   setSenha(String senha){
     if(senha.isNotEmpty && senha.length >= 6){
       this.senha = senha;
+      return;
     }else{
       print("Senha inválida!");
+      this.senha = '';
       return;
+
     }
+  }
+  @override
+  String toString (){
+    return "email: ${email}, senha: ${senha}";
   }
 
 

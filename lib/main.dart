@@ -1,6 +1,6 @@
 import 'package:ecommerce/controllers/product_controller.dart';
 import 'package:ecommerce/controllers/user_controller.dart';
-import 'package:ecommerce/screens/home_page.dart';
+import 'package:ecommerce/screens/tela_login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       ],
       child:  MaterialApp(
         title: "Ecommerce Apple",
-        home: HomePage(),
+        home: LoginInicial()
       ),
     );
   }

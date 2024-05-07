@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class UserController with ChangeNotifier {
   List<UserModel> users = [
-    UserModel(username: "Davi", email: "davinovo.valadao@gmail.com", senha: "12345")
+    UserModel(username: "Davi", email: "1", senha: "12345", gerente: true)
   ];
 
   void addToCart(String userEmail, ProductModel product){
@@ -24,12 +24,11 @@ class UserController with ChangeNotifier {
     }
   }
 void cadastrarUsuario(context, UserModel user){
-    var result = users.where((u) => u.email == user.email);
+    var email = users.where((u) => u.email == user.email);
     user.setEmail(user.email);
     user.setSenha(user.senha);
     if(user.email.isNotEmpty && user.senha.isNotEmpty){
       users.add(user);
-      notifyListeners();
        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.green,
                 content: Row(
@@ -38,7 +37,7 @@ void cadastrarUsuario(context, UserModel user){
                         Icon(Icons.check)
                     ],
                 )));
-    }else if(result.isNotEmpty){
+    }else if(email.isNotEmpty){
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.red,
                 content: Row(
@@ -57,15 +56,19 @@ void cadastrarUsuario(context, UserModel user){
                     ],
                 )));
     }
+    notifyListeners();
   }
 
 
   void login(context,String email, String senha){
+    print(senha);
+    print(email);
+    print(users);
     var result = users.where((user) => user.email == email && user.senha == senha);
+    print(result);
     var index = users.indexWhere((element) => element.email == email);
     if(result.isNotEmpty){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=> HomePage()), (route) => false);
-      notifyListeners();
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=> HomePage(index: index)), (route) => false);
     }else{
       print("Login incorreto tente novamente!");
     }

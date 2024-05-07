@@ -53,5 +53,10 @@ class ProductController with ChangeNotifier{
    }
   }
 
+  void deletarProduto(index){
+    products.removeAt(index);
+    notifyListeners();
+  }
+
 
 }

@@ -1,4 +1,3 @@
-import 'package:ecommerce/controllers/product_controller.dart';
 import 'package:ecommerce/controllers/user_controller.dart';
 import 'package:ecommerce/models/product_model.dart';
 import 'package:ecommerce/screens/favoritos_page.dart';
@@ -7,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Produtos extends StatefulWidget {
-  const Produtos({super.key});
+  final int index;
+  const Produtos({super.key, required this.index});
 
   @override
   State<Produtos> createState() => _ProdutosState();
@@ -22,7 +22,7 @@ class _ProdutosState extends State<Produtos> {
         title: const Text("Meu carrinho"),
         actions: [
           IconButton(onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context)=> Favoritos())); }, icon: const Icon(Icons.favorite)),
-          IconButton(onPressed: (){  Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage())); }, icon: const Icon(Icons.home)),
+          IconButton(onPressed: (){  Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage(index: widget.index))); }, icon: const Icon(Icons.home)),
         ],
       ),
       body:FutureBuilder<List<ProductModel>>(
