@@ -90,6 +90,7 @@ class _HomePageState extends State<HomePage> {
         itemCount: products.length,
         itemBuilder: (context, index) {
           return GestureDetector(
+            
             onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Favoritos())),
             child: Container(
               margin: const EdgeInsets.all(8),
@@ -116,22 +117,22 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                                    user[widget.index].gerente
-                                    ? IconButton(onPressed: (){
-                                      product.deletarProduto(index);
-                                    }, icon: Icon(Icons.delete)) :
-                       IconButton(
-                        onPressed: () {
-                          var product = ProductModel(
-                            name: products[index].name, 
-                            price: products[index].price, 
-                            description: products[index].description, 
-                            url: products[index].url
-                          );
-                          userController.addToCart(user[widget.index].email, product);
-                        },
-                        icon: Icon(Icons.shopping_cart_outlined),
-                      ), 
+                      //               user[widget.index].gerente
+                      //               ? IconButton(onPressed: (){
+                      //                 product.deletarProduto(index);
+                      //               }, icon: Icon(Icons.delete)) :
+                      //  IconButton(
+                      //   onPressed: () {
+                      //     var product = ProductModel(
+                      //       name: products[index].name, 
+                      //       price: products[index].price, 
+                      //       description: products[index].description, 
+                      //       url: products[index].url
+                      //     );
+                      //     userController.addToCart(user[widget.index].email, product);
+                      //   },
+                      //   icon: Icon(Icons.shopping_cart_outlined),
+                      // ), 
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -159,13 +160,34 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(height: 8,),
                           GestureDetector(
                             onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Favoritos())),
-                            child: Container(
-                              width: 140,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.purple[600],
-                                borderRadius: BorderRadius.circular(100)
-                              ),child: Center(child: Text("ADICIONAR", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),),
+                            child: GestureDetector(
+                              onTap: () {
+                                var produto2 = ProductModel(
+                                name: products[index].name, 
+                                price: products[index].price, 
+                                description: products[index].description, 
+                                url: products[index].url
+                              );
+                                user[widget.index].gerente? product.deletarProduto(index):
+                                userController.addToCart(user[widget.index].email, produto2);
+
+                                
+                              },
+                             
+
+
+                              child: Container(
+                                width: 140,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.purple[600],
+                                  borderRadius: BorderRadius.circular(100)
+                                ),child: Center(child: 
+                                 user[widget.index].gerente?
+                                 Text("REMOVER", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),):
+
+                                Text("ADICIONAR", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),),
+                              ),
                             ),
                           )
                         ],
