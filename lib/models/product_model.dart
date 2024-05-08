@@ -9,7 +9,7 @@ class ProductModel {
       throw ArgumentError("Nome não pode estar vazio");
     }
     if (price < 0) {
-      throw ArgumentError("Preço inválido!");
+      print("Preço inválido!");
     }
   }
 

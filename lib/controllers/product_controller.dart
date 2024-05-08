@@ -6,28 +6,28 @@ class ProductController with ChangeNotifier{
   final List<ProductModel> _products = [
     ProductModel(
     name: "MacBook", 
-    price: 100000.00,
+    price: 9999.99,
     description: "M3", 
     url: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbookair-og-202402?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1707414684423"
     ),
 
     ProductModel(
     name: "SmartPhone", 
-    price: 7000.00, 
+    price: 6999.99, 
     description: "Iphone 15", 
     url: "https://m.media-amazon.com/images/I/41RpmPYWXLL._AC_UF1000,1000_QL80_DpWeblab_.jpg"
     ),
     
     ProductModel(
     name: "Caixa de som", 
-    price: 200.00, 
+    price: 199.99, 
     description: "JBL", 
     url: "https://m.media-amazon.com/images/I/61qMO3TS2RL._AC_UF1000,1000_QL80_DpWeblab_.jpg"
     ),
     
     ProductModel(
     name: "Notebook Samsung Galaxy Book2 Intel Core i5-1235U, 8GB RAM",
-    price: 2499.00,
+    price: 2499.99,
     description: "SSD 256GB, 15.6\" Full HD, Windows 11 Home, Grafite - NP550XED-KF2BR",
     url: "https://m.media-amazon.com/images/I/419J3K8mKPL._AC_.jpg"
     ),

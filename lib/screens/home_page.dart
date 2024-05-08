@@ -5,6 +5,7 @@ import 'package:ecommerce/models/user_model.dart';
 import 'package:ecommerce/screens/favoritos_page.dart';
 import 'package:ecommerce/screens/carrinho_page.dart';
 import 'package:ecommerce/screens/tela_login.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.all(16.0),
                 child: IconButton(onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(builder: (_)=> Produtos(index: widget.index)));
-                }, icon: Icon(Icons.shop, color: Colors.white)),
+                }, icon: Icon(Icons.shopping_cart_outlined, color: Colors.white)),
               ),
                Padding(
                  padding: const EdgeInsets.all(16.0),
@@ -62,87 +63,124 @@ class _HomePageState extends State<HomePage> {
                               height: 48,
                               padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                               decoration: BoxDecoration(
-              color: Colors.grey[300],
-              border: const Border(bottom: BorderSide(color: Colors.grey, width: 1.0)
+                              color: Colors.white,
               ),
-              ),
-              child: const Row(
+              child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('Confira nossos produtos!', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16)),
+                    Text('Confira nossos produtos!', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: Colors.purple[800])),
                   ],
                 ))]
-                ), 
+                ),
           Expanded(
-            child: Consumer2<ProductController, UserController>(
-            
-            builder: (context, product,UserController, child) {
-              
-              List<ProductModel> products = product.products;
-              List<UserModel> user = UserController.users;
+  child: Consumer2<ProductController, UserController>(
+    builder: (context, product, userController, child) {
+      List<ProductModel> products = product.products;
+              List<UserModel> user = userController.users;
               
 
-              return ListView.builder(
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  
-                  return Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_)=> Favoritos())),
-                            child: Container(
-                              margin: const EdgeInsets.all(8),
-                              height: 250,
-                              child: Container(
-                                color: Colors.white,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.all(8),
-                                      width: 132,
-                                      height: 132,
-                                      decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10))),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                        child: Image(
-                                          image: NetworkImage(products[index].url),
-                                          alignment: Alignment.topCenter,
-                                        ),   
-                                      ),
-                                    ),
+      return GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, 
+          mainAxisSpacing: 8.0, 
+          crossAxisSpacing: 8.0, 
+          childAspectRatio: 1,
+          mainAxisExtent: 352
+        ),
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Favoritos())),
+            child: Container(
+              margin: const EdgeInsets.all(8),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 4,
+                child: Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                      width: 200, 
+                      height: 200, 
+                      color: Colors.white, 
+                      child: Center(
+                        child: AspectRatio(
+                          aspectRatio: 1, 
+                          child: Image.network(
+                            products[index].url,
+                            fit: BoxFit.contain, 
+                          ),
+                        ),
+                      ),
+                    ),
                                     user[widget.index].gerente
                                     ? IconButton(onPressed: (){
                                       product.deletarProduto(index);
                                     }, icon: Icon(Icons.delete)) :
-                                    IconButton(onPressed: (){
-                                      var product = ProductModel(
-                                        name: products[index].name, 
-                                        price: products[index].price, 
-                                        description: products[index].description, 
-                                        url: products[index].url);
-                                        UserController.addToCart(user[widget.index].email, product);
-                                    }, icon: Icon(Icons.shop)),
-                                    Container(
-                                      height: 20,
-                                      child: Text(products[index].name, textAlign: TextAlign.center,)),
-                                      Text('R\$: ${products[index].price}', style: TextStyle(fontSize: 18))
-                                    
-                                  ],
-                                ),
-                              ),
+                       IconButton(
+                        onPressed: () {
+                          var product = ProductModel(
+                            name: products[index].name, 
+                            price: products[index].price, 
+                            description: products[index].description, 
+                            url: products[index].url
+                          );
+                          userController.addToCart(user[widget.index].email, product);
+                        },
+                        icon: Icon(Icons.shopping_cart_outlined),
+                      ), 
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(height: 12,),
+                          Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: LimitedBox(
+                            maxHeight: 20,
+                            child: Text(
+                            products[index].name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                                                     ),
+                          ),
+                          ),
+                          SizedBox(height: 8,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              'R\$ ${products[index].price}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 18),
                             ),
                           ),
-                        )
-                      ],
-                    )
-                  ]);
-                },
-              );
-                    }),
-          )]));
+                          SizedBox(height: 8,),
+                          GestureDetector(
+                            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Favoritos())),
+                            child: Container(
+                              width: 140,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.purple[600],
+                                borderRadius: BorderRadius.circular(100)
+                              ),child: Center(child: Text("ADICIONAR", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+       
+  });}))])
+  
+  
+  );
   }
 }
+        
