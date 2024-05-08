@@ -3,7 +3,8 @@ import 'package:ecommerce/controllers/user_controller.dart';
 import 'package:ecommerce/models/product_model.dart';
 import 'package:ecommerce/models/user_model.dart';
 import 'package:ecommerce/screens/favoritos_page.dart';
-import 'package:ecommerce/screens/produtos_page.dart';
+import 'package:ecommerce/screens/carrinho_page.dart';
+import 'package:ecommerce/screens/tela_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -25,11 +26,21 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Eletro Shop', style: TextStyle(color: Colors.white,)),
         backgroundColor: Colors.black,
         actions:  [
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: IconButton(onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_)=> Produtos(index: widget.index)));
-            }, icon: Icon(Icons.shop, color: Colors.white)),
+          Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: IconButton(onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_)=> Produtos(index: widget.index)));
+                }, icon: Icon(Icons.shop, color: Colors.white)),
+              ),
+               Padding(
+                 padding: const EdgeInsets.all(16.0),
+                 child: IconButton(onPressed: (){
+                   Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginInicial()));
+                 },icon: Icon(Icons.logout, color: Colors.white),
+               )),
+            ],
           ),          
           ]
       ),
@@ -113,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                                         price: products[index].price, 
                                         description: products[index].description, 
                                         url: products[index].url);
-                                        UserController.addToCart("davinovo.valadao@gmail.com", product);
+                                        UserController.addToCart(user[widget.index].email, product);
                                     }, icon: Icon(Icons.shop)),
                                     Container(
                                       height: 20,

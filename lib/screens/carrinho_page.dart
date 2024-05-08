@@ -26,7 +26,7 @@ class _ProdutosState extends State<Produtos> {
         ],
       ),
       body:FutureBuilder<List<ProductModel>>(
-        future:userProvider.carrinhosProductsUser(0),
+        future:userProvider.carrinhosProductsUser(widget.index),
           builder: (context, snapshot) {
             if(snapshot.connectionState == ConnectionState.waiting){
               return const Center(child: CircularProgressIndicator());
@@ -39,7 +39,14 @@ class _ProdutosState extends State<Produtos> {
               return ListView.builder(
                 itemCount: carrinho.length,
                 itemBuilder: (context, index){
-                  return Text(carrinho[index].name);
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                     Text(carrinho[index].name, textAlign: TextAlign.center,),
+                     Text('R\$: ${carrinho[index].price}', style: TextStyle(fontSize: 18))
+                                    
+                    ],
+                  );
                 },
               );
             }

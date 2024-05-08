@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 
 class UserController with ChangeNotifier {
   List<UserModel> users = [
-    UserModel(username: "Davi", email: "1", senha: "12345", gerente: true)
+    UserModel(username: "Davi", email: "1", senha: "12345", gerente: true),
+    UserModel(username: "Davi", email: "davinovo.valadao@gmail.com", senha: "123456", gerente: false)
   ];
 
   void addToCart(String userEmail, ProductModel product){
     UserModel? user = users.firstWhere((element) => element.email == userEmail);
     if(user.email.isNotEmpty){
       user.products.add(product);
+      print("produto adicionado");
+
     }
   }
 
